@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace html_to_pdf
 {
-    public class EmptyShellInterceptor : IEmptyInterseptor
+    public interface IEmptyInterseptor
     {
-        public EmptyShellInterceptor() { }
-
-        public virtual void OnInit(string version) { }
+        void OnInit(string version);
     }
 }

@@ -12,10 +12,28 @@ namespace pdf1._1.tests
     public class pdf1_1
     {
         [Test]
-        public void GeneratePDF1_1_HelloWorldTest()
+        public void NewPDF1_1_HelloWorldTest()
         {
-            var ShellInterceptor = new ShellInterceptor();
-            var pdf = Shell.GeneratePDF1_1(ShellInterceptor);
+            var ShellInterceptor = new DebugInterceptor();
+            ShellInterceptor.OnInitEvent = (version) =>
+            {
+                System.Diagnostics.Debug.WriteLine("New process started for creating PDF with version: " + version);
+            };
+
+            var pdf = Shell.NewPDF1_1(ShellInterceptor);
+        }
+
+        class DebugInterceptor : EmptyShellInterceptor
+        {
+            public Action<string> OnInitEvent;
+
+            public override void OnInit(string version)
+            {
+                if (OnInitEvent != null)
+                    this.OnInitEvent(version);
+
+                base.OnInit(version);
+            }
         }
     }
 }

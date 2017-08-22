@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="Catalog.cs" />
     <Compile Include="Configuration\PaperSizes.cs" />
+    <Compile Include="IEmptyInterseptor.cs" />
     <Compile Include="Page.cs" />
     <Compile Include="Pages.cs" />
     <Compile Include="PDF.cs" />
