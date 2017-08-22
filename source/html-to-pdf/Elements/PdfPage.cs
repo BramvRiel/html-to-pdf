@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace html_to_pdf
+namespace html_to_pdf.Elements
 {
-    class PDF1_1 : PDF1_0
+    class PdfPage : PdfObject
     {
-        public PDF1_1()
-            : base()
+        public override string Write()
         {
-            this.PdfHeader.Version = "1.1";
+            throw new NotImplementedException();
         }
     }
 }

@@ -10,18 +10,14 @@ namespace html_to_pdf
     {
         public static byte[] NewPDF1_1()
         {
-            var process = new ShellProcess(new EmptyShellInterceptor());
-            process.GeneratePDF1_1();
-
-            return new byte[] { };
+            return NewPDF1_1(new EmptyShellInterceptor());
         }
 
         public static byte[] NewPDF1_1(IEmptyInterseptor ShellInterceptor)
         {
             var process = new ShellProcess(ShellInterceptor);
-            process.GeneratePDF1_1();
 
-            return new byte[] { };
+            return process.GeneratePDF1_1().Export();
         }
     }
 }

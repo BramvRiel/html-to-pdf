@@ -11,5 +11,20 @@ namespace html_to_pdf
         public EmptyShellInterceptor() { }
 
         public virtual void OnInit(string version) { }
+
+        public virtual void OnWriteHeader(Elements.IWritable pdfHeader)
+        {
+
+        }
+
+        public virtual void OnWriteObject(Elements.IWritable pdfObject)
+        {
+
+        }
+
+        public virtual void OnWriteXref(Elements.IWritable pdfXref)
+        {
+
+        }
     }
 }

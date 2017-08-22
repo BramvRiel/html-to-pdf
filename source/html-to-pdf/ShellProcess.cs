@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,14 +9,14 @@ namespace html_to_pdf
 {
     interface IShellProcess
     {
-        string PdfVersion { get; }
+
     }
 
     class ShellProcess : IShellProcess
     {
         private IEmptyInterseptor ShellInterceptor;
 
-        public string PdfVersion { get; set; }
+        public PDF Pdf { get; set; }
 
         public ShellProcess() { }
 
@@ -24,13 +25,48 @@ namespace html_to_pdf
             this.ShellInterceptor = ShellInterceptor;
         }
 
-        internal PDF GeneratePDF1_1()
+        internal ShellProcess GeneratePDF1_1()
         {
-            this.PdfVersion = "1.1";
+            this.Pdf = new PDF1_1();
 
-            ShellInterceptor.OnInit(this.PdfVersion);
+            ShellInterceptor.OnInit(this.Pdf.PdfHeader.Version);
 
-            return new PDF1_1();
+            return this;
+        }
+
+        internal byte[] Export()
+        {
+            byte[] export = null;
+
+            string written;
+
+            using (MemoryStream stream = new MemoryStream())
+            using (StreamWriter writer = new StreamWriter(stream))
+            {
+                ShellInterceptor.OnWriteHeader(this.Pdf.PdfHeader);
+                writer.Write(this.Pdf.PdfHeader.Write());
+                writer.Flush();
+                this.Pdf.PdfXref.AddReference(stream.Position);
+
+                for (int i = 0; i < this.Pdf.PdfObjects.Count(); i++)
+                {
+                    var pdfObject = this.Pdf.PdfObjects[i];
+                    ShellInterceptor.OnWriteObject(pdfObject);
+                    writer.Write(pdfObject.Write());
+                    writer.Flush();
+                    this.Pdf.PdfXref.AddReference(stream.Position);
+                }
+
+                ShellInterceptor.OnWriteXref(this.Pdf.PdfXref);
+                writer.Write(this.Pdf.PdfXref.Write());
+                writer.Flush();
+                this.Pdf.PdfXref.Start = stream.Position;
+
+                stream.Position = 0;
+                export = stream.ToArray();
+            }
+
+            return export;
         }
     }
 }
