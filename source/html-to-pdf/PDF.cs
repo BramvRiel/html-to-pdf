@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace html_to_pdf
 {
-    public abstract class PDF
+    abstract class PDF
     {
         Catalog Catalog { get; set; }
     }

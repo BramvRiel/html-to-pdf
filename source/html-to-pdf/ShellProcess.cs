@@ -6,20 +6,30 @@ using System.Threading.Tasks;
 
 namespace html_to_pdf
 {
-    class ShellProcess
+    interface IShellProcess
     {
-        private ShellInterceptor ShellInterceptor;
+        string PdfVersion { get; }
+    }
+
+    class ShellProcess : IShellProcess
+    {
+        private IEmptyInterseptor ShellInterceptor;
+
+        public string PdfVersion { get; set; }
 
         public ShellProcess() { }
 
-        public ShellProcess(ShellInterceptor ShellInterceptor)
+        public ShellProcess(IEmptyInterseptor ShellInterceptor)
         {
-            // TODO: Complete member initialization
             this.ShellInterceptor = ShellInterceptor;
         }
 
         internal PDF GeneratePDF1_1()
         {
+            this.PdfVersion = "1.1";
+
+            ShellInterceptor.OnInit(this.PdfVersion);
+
             return new PDF1_1();
         }
     }
