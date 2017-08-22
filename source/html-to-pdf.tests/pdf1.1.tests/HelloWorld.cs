@@ -28,7 +28,7 @@ namespace pdf1._1.tests
             public Action<string> OnInitEvent;
 
             public override void OnInit(string version)
-            {
+        {
                 if (OnInitEvent != null)
                     this.OnInitEvent(version);
 
