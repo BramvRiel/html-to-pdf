@@ -12,7 +12,11 @@ namespace html_to_pdf.Configuration
 
         int Height { get; set; }
 
+        bool Rotated { get; }
+
         void Rotate();
+
+        string MediaBox();
     }
 
     class PageSize : IPageSize
@@ -21,11 +25,26 @@ namespace html_to_pdf.Configuration
 
         public int Height { get; set; }
 
+        public bool Rotated { get; private set; }
+
         public void Rotate()
         {
             int temp = this.Width;
             this.Width = this.Height;
             this.Height = temp;
+            this.Rotated = !this.Rotated;
+        }
+
+        public string MediaBox()
+        {
+            if (this.Rotated)
+            {
+                return string.Format("MediaBox [0 0 {1} {0}]", this.Width, this.Height);
+            }
+            else
+            {
+                return string.Format("MediaBox [0 0 {0} {1}]", this.Width, this.Height);
+            }
         }
     }
 

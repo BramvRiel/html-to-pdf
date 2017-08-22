@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace html_to_pdf
 {
-    public abstract class PDF
+    public class ShellInterceptor
     {
-        Catalog Catalog { get; set; }
+        public ShellInterceptor() { }
     }
 }
