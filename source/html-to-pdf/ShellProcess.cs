@@ -7,9 +7,13 @@ using System.Threading.Tasks;
 
 namespace html_to_pdf
 {
-    interface IShellProcess
+    public interface IShellProcess
     {
+        IShellProcess Version();
 
+        IShellProcess AddPage();
+
+        byte[] Export();
     }
 
     class ShellProcess : IShellProcess
@@ -25,24 +29,28 @@ namespace html_to_pdf
             this.ShellInterceptor = ShellInterceptor;
         }
 
-        internal ShellProcess GeneratePDF1_1()
+        public IShellProcess Version()
         {
             this.Pdf = new PDF1_1();
-
             ShellInterceptor.OnInit(this.Pdf.PdfHeader.Version);
-
             return this;
         }
 
-        internal ShellProcess AddPage()
+        public IShellProcess AddPage()
         {
+            if (this.Pdf == null)
+                throw new Exception("Unknown PDF format. Use IShellProcess.Version() to set the format.");
+
             this.Pdf.AddPage();
 
             return this;
         }
 
-        internal byte[] Export()
+        public byte[] Export()
         {
+            if (this.Pdf.PdfCatalog.PdfPages.Pages.Count() == 0)
+                throw new Exception("Cannot export PDF with 0 pages. Use IShellProcess.AddPage() to add a page.");
+
             byte[] export = null;
 
             string written;

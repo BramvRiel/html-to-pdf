@@ -8,16 +8,16 @@ namespace html_to_pdf
 {
     public class Shell
     {
-        public static byte[] NewPDF1_1()
+        public static IShellProcess NewPDF()
         {
-            return NewPDF1_1(new EmptyInterceptor());
+            return NewPDF(new EmptyInterceptor());
         }
 
-        public static byte[] NewPDF1_1(IEmptyInterseptor ShellInterceptor)
+        public static IShellProcess NewPDF(IEmptyInterseptor ShellInterceptor)
         {
             var process = new ShellProcess(ShellInterceptor);
-
-            return process.GeneratePDF1_1().AddPage().Export();
+            
+            return process;
         }
     }
 }

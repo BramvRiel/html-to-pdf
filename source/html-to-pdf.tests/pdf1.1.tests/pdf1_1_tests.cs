@@ -49,7 +49,7 @@ namespace pdf1._1.tests
                 System.Diagnostics.Debug.Write(pdf_text);
             };
 
-            var pdf = Shell.NewPDF1_1(ShellInterceptor);
+            var pdf = Shell.NewPDF(ShellInterceptor).Version().AddPage().Export();
         }
 
         class DebugInterceptor : EmptyInterceptor
