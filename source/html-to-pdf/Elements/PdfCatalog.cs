@@ -8,7 +8,7 @@ namespace html_to_pdf.Elements
 {
     class PdfCatalog : PdfObject
     {
-        public PdfPages Pages;
+        public PdfPages PdfPages;
 
         public override string Write()
         {
@@ -16,7 +16,7 @@ namespace html_to_pdf.Elements
             sb.AppendFormat("{0} 0 obj\n", this.Index);
             sb.Append("<<\n");
             sb.Append("\t/Type /Catalog\n");
-            sb.AppendFormat("\t/Pages {0} 0\n", Pages.Index);
+            sb.AppendFormat("\t/Pages {0} 0 R\n", PdfPages.Index);
             sb.Append(">>\n");
             sb.Append("endobj\n");
             return sb.ToString();

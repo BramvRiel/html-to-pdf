@@ -37,10 +37,10 @@ namespace html_to_pdf.Elements
 
             sb.Append("xref\n");
             sb.AppendFormat("0 {0}\n", this.ObjectCount);
-            sb.AppendFormat("{0:0000000000} {1:00000} f\n", 0, 65536);
+            sb.AppendFormat("{0:0000000000} {1:00000} f \n", 0, 65535);
             foreach (var pdfReference in this.PdfReferences)
             {
-                sb.AppendFormat("{0:0000000000} {1:00000} n\n", pdfReference.Size, 0);
+                sb.AppendFormat("{0:0000000000} {1:00000} n \n", pdfReference.Size, 0);
             }
             return sb.ToString();
         }

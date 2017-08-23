@@ -16,8 +16,8 @@ namespace html_to_pdf
             this.PdfCatalog = new PdfCatalog();
             this.AddToPdfObjects(this.PdfCatalog);
 
-            this.PdfCatalog.Pages = new PdfPages { };
-            this.AddToPdfObjects(this.PdfCatalog.Pages);
+            this.PdfCatalog.PdfPages = new PdfPages { };
+            this.AddToPdfObjects(this.PdfCatalog.PdfPages);
 
             this.PdfXref = new PdfXref();
             this.PdfXref.ObjectCount = this.PdfObjects.Count();
@@ -46,5 +46,15 @@ namespace html_to_pdf
         public PdfTrailer PdfTrailer;
 
         public PdfEof PdfEof;
+
+        internal void AddPage()
+        {
+            var pdfPages = this.PdfCatalog.PdfPages.Pages.ToList();
+            var pdfPage = new PdfPage();
+            pdfPage.ParentIndex = this.PdfCatalog.PdfPages.Index;
+            this.AddToPdfObjects(pdfPage);
+            pdfPages.Add(pdfPage);
+            this.PdfCatalog.PdfPages.Pages = pdfPages.ToArray();
+        }
     }
 }

@@ -34,6 +34,13 @@ namespace html_to_pdf
             return this;
         }
 
+        internal ShellProcess AddPage()
+        {
+            this.Pdf.AddPage();
+
+            return this;
+        }
+
         internal byte[] Export()
         {
             byte[] export = null;

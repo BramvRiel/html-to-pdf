@@ -17,7 +17,7 @@ namespace html_to_pdf
         {
             var process = new ShellProcess(ShellInterceptor);
 
-            return process.GeneratePDF1_1().Export();
+            return process.GeneratePDF1_1().AddPage().Export();
         }
     }
 }
