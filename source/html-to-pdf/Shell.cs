@@ -10,7 +10,7 @@ namespace html_to_pdf
     {
         public static byte[] NewPDF1_1()
         {
-            return NewPDF1_1(new EmptyShellInterceptor());
+            return NewPDF1_1(new EmptyInterceptor());
         }
 
         public static byte[] NewPDF1_1(IEmptyInterseptor ShellInterceptor)

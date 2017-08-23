@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace html_to_pdf
 {
-    public class EmptyShellInterceptor : IEmptyInterseptor
+    public class EmptyInterceptor : IEmptyInterseptor
     {
-        public EmptyShellInterceptor() { }
+        public EmptyInterceptor() { }
 
         public virtual void OnInit(string version) { }
 
@@ -25,6 +25,18 @@ namespace html_to_pdf
         public virtual void OnWriteXref(Elements.IWritable pdfXref)
         {
 
+        }
+
+
+        public virtual void OnWriteTrailer(Elements.IWritable pdfTrailer)
+        {
+
+        }
+
+
+        public virtual void OnWriteEof(Elements.IWritable pdfEof)
+        {
+            
         }
     }
 }

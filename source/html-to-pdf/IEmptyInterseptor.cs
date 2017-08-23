@@ -16,5 +16,9 @@ namespace html_to_pdf
         void OnWriteObject(IWritable pdfObject);
 
         void OnWriteXref(IWritable pdfXref);
+
+        void OnWriteTrailer(IWritable pdfTrailer);
+
+        void OnWriteEof(IWritable pdfEof);
     }
 }

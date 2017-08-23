@@ -62,6 +62,17 @@ namespace html_to_pdf
                 writer.Flush();
                 this.Pdf.PdfXref.Start = stream.Position;
 
+                this.Pdf.PdfTrailer.CatalogIndex = this.Pdf.PdfCatalog.Index;
+                this.Pdf.PdfTrailer.Size = this.Pdf.PdfObjects.Count();
+                ShellInterceptor.OnWriteTrailer(this.Pdf.PdfTrailer);
+                writer.Write(this.Pdf.PdfTrailer.Write());
+                writer.Flush();
+
+                this.Pdf.PdfEof.StartXref = this.Pdf.PdfXref.Start;
+                ShellInterceptor.OnWriteEof(this.Pdf.PdfEof);
+                writer.Write(this.Pdf.PdfEof.Write());
+                writer.Flush();
+
                 stream.Position = 0;
                 export = stream.ToArray();
             }

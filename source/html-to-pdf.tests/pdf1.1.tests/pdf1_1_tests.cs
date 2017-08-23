@@ -5,10 +5,10 @@ using System;
 namespace pdf1._1.tests
 {
     [TestFixture]
-    public class pdf1_1
+    public class pdf1_1_tests
     {
         [Test]
-        public void NewPDF1_1_HelloWorldTest()
+        public void pdf1_1_EmptyTest()
         {
             var ShellInterceptor = new DebugInterceptor();
 
@@ -37,10 +37,22 @@ namespace pdf1._1.tests
                 System.Diagnostics.Debug.Write(pdf_text);
             };
 
+            ShellInterceptor.OnWriteTrailerEvent = (pdfTrailer) =>
+            {
+                string pdf_text = pdfTrailer.Write();
+                System.Diagnostics.Debug.Write(pdf_text);
+            };
+
+            ShellInterceptor.OnWriteEofEvent = (pdfEof) =>
+            {
+                string pdf_text = pdfEof.Write();
+                System.Diagnostics.Debug.Write(pdf_text);
+            };
+
             var pdf = Shell.NewPDF1_1(ShellInterceptor);
         }
 
-        class DebugInterceptor : EmptyShellInterceptor
+        class DebugInterceptor : EmptyInterceptor
         {
             public Action<string> OnInitEvent;
 
@@ -49,6 +61,10 @@ namespace pdf1._1.tests
             public Action<html_to_pdf.Elements.IWritable> OnWriteObjectEvent;
 
             public Action<html_to_pdf.Elements.IWritable> OnWriteXrefEvent;
+
+            public Action<html_to_pdf.Elements.IWritable> OnWriteTrailerEvent;
+
+            public Action<html_to_pdf.Elements.IWritable> OnWriteEofEvent;
 
             public override void OnInit(string version)
             {
@@ -80,6 +96,22 @@ namespace pdf1._1.tests
                     this.OnWriteXrefEvent(pdfXref);
 
                 base.OnWriteXref(pdfXref);
+            }
+
+            public override void OnWriteTrailer(html_to_pdf.Elements.IWritable pdfTrailer)
+            {
+                if (OnWriteTrailerEvent != null)
+                    this.OnWriteTrailerEvent(pdfTrailer);
+
+                base.OnWriteTrailer(pdfTrailer);
+            }
+
+            public override void OnWriteEof(html_to_pdf.Elements.IWritable pdfEof)
+            {
+                if (OnWriteEofEvent != null)
+                    this.OnWriteEofEvent(pdfEof);
+
+                base.OnWriteEof(pdfEof);
             }
         }
     }

@@ -21,6 +21,10 @@ namespace html_to_pdf
 
             this.PdfXref = new PdfXref();
             this.PdfXref.ObjectCount = this.PdfObjects.Count();
+
+            this.PdfTrailer = new PdfTrailer();
+
+            this.PdfEof = new PdfEof();
         }
 
         public PdfHeader PdfHeader;
@@ -34,9 +38,13 @@ namespace html_to_pdf
         public void AddToPdfObjects(PdfObject pdfObject)
         {
             var pdfObjects = this.PdfObjects.ToList();
-            pdfObject.Index = pdfObjects.Count;
+            pdfObject.Index = pdfObjects.Count + 1;
             pdfObjects.Add(pdfObject);
             this.PdfObjects = pdfObjects.ToArray();
         }
+
+        public PdfTrailer PdfTrailer;
+
+        public PdfEof PdfEof;
     }
 }
